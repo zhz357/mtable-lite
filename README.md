@@ -11,6 +11,23 @@ MTable-Lite 把「个人工作台」装进一个桌面应用：可定制的菜�
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
+## 目录
+
+- [界面预览](#界面预览)
+- [为什么选择 MTable-Lite](#为什么选择-mtable-lite)
+- [功能一览](#功能一览)
+- [技术架构](#技术架构)
+- [快速开始](#快速开始)
+- [数据文件位置](#数据文件位置)
+- [项目结构](#项目结构)
+- [需要联网的功能](#需要联网的功能)
+- [测试](#测试)
+- [插件扩展](#插件扩展)
+- [FAQ](#faq)
+- [已知限制](#已知限制)
+- [Contributing](#contributing)
+- [License](#license)
+
 ---
 
 ## 界面预览
@@ -81,6 +98,8 @@ MTable-Lite 把「个人工作台」装进一个桌面应用：可定制的菜�
 - **鉴权**：本地会话表 `t_session`，密码 scrypt 哈希（兼容 BCrypt 迁移数据），无服务端 Token。
 - **外部调用**：仅 AI 对话、热搜、壁纸、天气等公开服务由主进程 Node 直连，其余全部离线。
 
+**技术栈**：Electron 33 · better-sqlite3（WAL 模式）· 原生 HTML/CSS/JS（无前端框架）· electron-builder（dmg / NSIS）
+
 ## 快速开始
 
 ### 环境要求
@@ -138,6 +157,7 @@ userdata/              # Chromium 运行时数据（可整体删除重建）
 ```
 MTable-Lite/
 ├── brand/                 品牌视觉（logo SVG、品牌指南）
+├── docs/screenshots/      README 界面截图
 └── mtable-desktop/
     ├── main.js            Electron 主进程入口（协议注册、窗口）
     ├── preload.js         渲染进程 ↔ 主进程 IPC 安全桥
@@ -179,6 +199,20 @@ node test/persist-read.js  # 跨进程持久化验证
 ## 插件扩展
 
 工作台卡片支持插件化扩展，参考 `mtable-desktop/docs/` 下的插件设计文档（倒计时插件、俄罗斯方块插件示例）。
+
+## FAQ
+
+**Q：如何重置所有本地数据？**
+删除 `db/` 目录后重新启动，应用会自动重建数据库并预置演示账号。
+
+**Q：如何从旧版 MTable（Spring Boot + MySQL）迁移数据？**
+将旧项目的 SQLite 备份或导出文件放置后，在「设置 → 个人资料 → 导入项目数据」选择 `db/app.db` 全量覆盖本机数据；BCrypt 哈希的账号密码可直接兼容登录。
+
+**Q：AI 助手不工作？**
+先在「AI 助手 → 模型设置」添加并启用一个大模型配置（OpenAI 兼容接口：API 地址 + 密钥 + 模型 ID），密钥仅保存在本地。
+
+**Q：为什么仓库里没有 `db/`、`media/`、`userdata/`？**
+这些是本地用户数据与生成内容，已加入 `.gitignore`；首次启动会自动创建，保证仓库干净与隐私安全。
 
 ## 已知限制
 
