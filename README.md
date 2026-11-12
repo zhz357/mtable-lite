@@ -68,7 +68,7 @@ MTable-Lite 把「个人工作台」装进一个桌面应用：可定制的菜�
 ### 开发模式
 
 ```bash
-git clone https://github.com/<your-name>/MTable-Lite.git
+git clone https://gitee.com/zhaohuizhao35/mtable-lite.git
 cd MTable-Lite/mtable-desktop
 npm install        # postinstall 自动按 Electron ABI 重建 better-sqlite3
 npm start
