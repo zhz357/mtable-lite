@@ -13,6 +13,20 @@ MTable-Lite 把「个人工作台」装进一个桌面应用：可定制的菜�
 
 ---
 
+## 界面预览
+
+| 工作台 | 学习路线 | 倒计时插件 |
+|---|---|---|
+| ![工作台](docs/screenshots/dashboard.jpg) | ![学习路线](docs/screenshots/roadmap.jpg) | ![倒计时](docs/screenshots/countdown.jpg) |
+| **自定义菜单与卡片、壁纸背景** | **路线 → 阶段 → 待办三层规划** | **插件市场一键安装** |
+
+| 内置游戏 | 插件市场 | AI 助手 |
+|---|---|---|
+| ![游戏](docs/screenshots/games.jpg) | ![插件市场](docs/screenshots/marketplace.jpg) | ![AI助手](docs/screenshots/ai.jpg) |
+| **4 款内置小游戏卡片** | **按需安装 / 卸载插件** | **悬浮入口 + 流式对话** |
+
+---
+
 ## 为什么选择 MTable-Lite
 
 - **无需后端、无需数据库服务**：传统方案需要 Electron + Spring Boot + MySQL 三件套；MTable-Lite 将数据层内嵌为本地 SQLite 文件，`npm start` 即可运行，打包产物双击即用。
