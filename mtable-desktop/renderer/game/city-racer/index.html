@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霓虹都市狂飙</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #0b0812; }
+body { font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif; color: #e8e4f4; user-select: none; }
+#scene { position: absolute; inset: 0; }
+#scene canvas { display: block; }
+.glass {
+  background: rgba(14, 10, 26, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 110, 220, 0.22);
+  border-radius: 14px;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.45), inset 0 0 24px rgba(120, 60, 200, 0.08);
+}
+#hud { position: absolute; inset: 0; pointer-events: none; display: none; }
+.hud-tl { position: absolute; top: 14px; left: 14px; padding: 10px 16px; min-width: 170px; }
+.hud-tl .time { font-size: 26px; font-weight: 700; letter-spacing: 1px; color: #fff; font-variant-numeric: tabular-nums; text-shadow: 0 0 12px rgba(120, 220, 255, 0.6); }
+.hud-tl .cp { font-size: 13px; color: #9fd8ff; margin-top: 2px; }
+.hud-tl .bar { height: 5px; background: rgba(255, 255, 255, 0.12); border-radius: 3px; margin-top: 7px; overflow: hidden; }
+.hud-tl .bar i { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, #4dd8ff, #ff6ed8); transition: width 0.2s; }
+.hud-tr { position: absolute; top: 14px; right: 14px; padding: 10px 16px; text-align: right; }
+.hud-tr .kmh { font-size: 30px; font-weight: 800; color: #ffd27a; font-variant-numeric: tabular-nums; text-shadow: 0 0 14px rgba(255, 170, 80, 0.55); }
+.hud-tr .kmh small { font-size: 12px; font-weight: 400; color: #b9a98a; margin-left: 3px; }
+.hud-drift { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); padding: 8px 22px; text-align: center; opacity: 0; transition: opacity 0.25s; }
+.hud-drift.on { opacity: 1; }
+.hud-drift .ds { font-size: 22px; font-weight: 800; color: #ff7ae0; text-shadow: 0 0 16px rgba(255, 90, 220, 0.7); font-variant-numeric: tabular-nums; }
+.hud-drift .cb { font-size: 13px; color: #9fd8ff; margin-top: 2px; }
+.hud-total { position: absolute; bottom: 18px; right: 14px; padding: 8px 14px; font-size: 13px; color: #cbb8e8; }
+.hud-total b { color: #ffd27a; font-size: 17px; }
+#arrow { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; display: none; align-items: center; justify-content: center; font-size: 30px; color: #5df2c8; text-shadow: 0 0 14px rgba(80, 255, 200, 0.8); will-change: transform; }
+#countdown { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); font-size: 120px; font-weight: 900; color: #fff; text-shadow: 0 0 30px rgba(120, 220, 255, 0.9), 0 0 60px rgba(255, 110, 220, 0.6); display: none; pointer-events: none; }
+#flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; background: radial-gradient(circle, rgba(120, 255, 220, 0.25), transparent 65%); }
+.screen { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: auto; }
+.screen.hidden { display: none; }
+.card { padding: 34px 42px; max-width: 560px; width: calc(100% - 48px); text-align: center; max-height: calc(100vh - 40px); overflow: auto; }
+.card h1 { font-size: 34px; font-weight: 900; letter-spacing: 3px; background: linear-gradient(90deg, #5df2c8, #4dd8ff, #ff6ed8); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 6px; }
+.card h2 { font-size: 26px; font-weight: 800; color: #ffd27a; margin-bottom: 14px; letter-spacing: 2px; }
+.card .sub { font-size: 13px; color: #9a8fb8; margin-bottom: 18px; }
+.keys { display: flex; flex-wrap: wrap; gap: 8px 14px; justify-content: center; margin: 14px 0 20px; font-size: 13px; color: #cbb8e8; }
+.keys span { white-space: nowrap; }
+.keys kbd { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); font-family: inherit; font-size: 12px; color: #fff; }
+.best { font-size: 14px; color: #9fd8ff; margin-bottom: 18px; }
+.best b { color: #5df2c8; }
+.btn {
+  pointer-events: auto; cursor: pointer; border: none; outline: none;
+  padding: 13px 38px; font-size: 17px; font-weight: 700; letter-spacing: 2px;
+  color: #0b0812; border-radius: 12px; font-family: inherit;
+  background: linear-gradient(90deg, #5df2c8, #4dd8ff);
+  box-shadow: 0 0 22px rgba(80, 220, 255, 0.45);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.btn:hover { transform: scale(1.05); box-shadow: 0 0 34px rgba(80, 220, 255, 0.7); }
+.btn + .btn { margin-left: 14px; }
+.btn.ghost { background: rgba(255, 255, 255, 0.1); color: #e8e4f4; border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: none; }
+.rows { text-align: left; margin: 0 auto 20px; max-width: 320px; font-size: 16px; }
+.rows .r { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.12); }
+.rows .r b { color: #ffd27a; font-variant-numeric: tabular-nums; }
+.rows .r.total b { color: #5df2c8; font-size: 20px; }
+#newRecord { display: none; margin: 4px 0 14px; font-size: 22px; font-weight: 900; color: #ff6ed8; text-shadow: 0 0 18px rgba(255, 110, 220, 0.8); animation: pulse 0.8s infinite alternate; }
+@keyframes pulse { from { opacity: 0.7; transform: scale(1); } to { opacity: 1; transform: scale(1.08); } }
+#hint { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: 12px; color: rgba(200, 190, 220, 0.5); pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="scene"></div>
+<div id="hud">
+  <div class="hud-tl glass">
+    <div class="time" id="timeEl">00:00.000</div>
+    <div class="cp" id="cpEl">检查点 0/11</div>
+    <div class="bar"><i id="progEl"></i></div>
+  </div>
+  <div class="hud-tr glass">
+    <div class="kmh"><span id="kmhEl">0</span><small>km/h</small></div>
+  </div>
+  <div class="hud-drift glass" id="driftBox">
+    <div class="ds" id="driftEl">0</div>
+    <div class="cb" id="comboEl">连击 x1.0</div>
+  </div>
+  <div class="hud-total glass">漂移总分 <b id="driftTotalEl">0</b></div>
+  <div id="arrow">▲</div>
+  <div id="countdown"></div>
+  <div id="flash"></div>
+</div>
+<div class="screen" id="startScreen">
+  <div class="card glass">
+    <h1>霓虹都市狂飙</h1>
+    <div class="sub">黄昏城市 · 检查点圈速 · 漂移得分</div>
+    <div class="keys">
+      <span><kbd>W</kbd>/<kbd>↑</kbd> 加速</span>
+      <span><kbd>S</kbd>/<kbd>↓</kbd> 刹车/倒车</span>
+      <span><kbd>A</kbd><kbd>D</kbd>/<kbd>←</kbd><kbd>→</kbd> 转向</span>
+      <span><kbd>空格</kbd> 手刹漂移</span>
+      <span><kbd>Esc</kbd> 暂停</span>
+      <span><kbd>R</kbd> 重开</span>
+    </div>
+    <div class="best" id="bestEl">最佳纪录：暂无</div>
+    <button class="btn" id="startBtn">开始游戏</button>
+  </div>
+</div>
+<div class="screen hidden" id="pauseScreen">
+  <div class="card glass">
+    <h2>已暂停</h2>
+    <button class="btn" id="resumeBtn">继续</button>
+    <button class="btn ghost" id="restartBtn">重新开始</button>
+  </div>
+</div>
+<div class="screen hidden" id="resultScreen">
+  <div class="card glass">
+    <h2 id="resultTitle">冲线！</h2>
+    <div id="newRecord">NEW! 新纪录</div>
+    <div class="rows">
+      <div class="r"><span>用时</span><b id="rTime">-</b></div>
+      <div class="r"><span>漂移得分</span><b id="rDrift">-</b></div>
+      <div class="r"><span>时间奖励</span><b id="rBonus">-</b></div>
+      <div class="r total"><span>总分</span><b id="rTotal">-</b></div>
+    </div>
+    <button class="btn" id="againBtn">再来一局</button>
+  </div>
+</div>
+<div id="hint">沿发光门柱顺序行驶，回到终点门结算 · 空格漂移得分</div>
+<script src="vendor/three.min.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

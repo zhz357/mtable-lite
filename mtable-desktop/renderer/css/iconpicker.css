@@ -1,0 +1,35 @@
+/* iconpicker.css — 图标选择器（对应 IconPickerView.swift） */
+
+.iconpicker-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 40px);
+  gap: 12px;
+}
+
+.iconpicker-item {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: background .12s, border-color .12s, color .12s;
+}
+
+.iconpicker-item:hover { border-color: var(--card-border); }
+
+.iconpicker-item.selected {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.iconpicker-item .icon {
+  width: 18px;
+  height: 18px;
+}

@@ -1,0 +1,332 @@
+/* topbar.css — 顶部栏（移植自 TopBarView.swift / MainLayoutView.swift） */
+
+/* ---------- 窗口拖动 ----------
+ * macOS 使用 titleBarStyle: 'hiddenInset' 隐藏了系统标题栏，
+ * 必须显式声明拖动区（-webkit-app-region: drag），否则无法拖动窗口。
+ * 顶栏整体可拖；顶栏内的按钮/输入框/天气组件/下拉弹层设为 no-drag 保证可交互。
+ * Windows 使用系统标题栏，无需处理。 */
+body[data-platform="darwin"] .topbar { -webkit-app-region: drag; }
+body[data-platform="darwin"] .topbar button,
+body[data-platform="darwin"] .topbar input,
+body[data-platform="darwin"] .topbar textarea,
+body[data-platform="darwin"] .topbar select,
+body[data-platform="darwin"] .topbar a,
+body[data-platform="darwin"] .topbar .topbar-weather,
+body[data-platform="darwin"] .topbar .weather-chip,
+body[data-platform="darwin"] .topbar .topbar-dd,
+body[data-platform="darwin"] .topbar .topbar-dd * { -webkit-app-region: no-drag; }
+
+.topbar {
+  position: relative;
+  z-index: 100; /* 下拉弹层需覆盖下方 main-content（其为 position:relative） */
+  flex-shrink: 0;
+  padding: 12px 16px 0;
+}
+
+/* macOS 红绿灯按钮不遮挡 Logo（trafficLightPosition x:14 + 按钮组宽约 60px） */
+body[data-platform="darwin"] .topbar { padding-left: 88px; }
+
+.topbar-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 20px;
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Logo ---------- */
+.topbar-logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.topbar-logo-badge {
+  width: 32px; height: 32px; flex-shrink: 0;
+  display: block; line-height: 0;
+}
+.topbar-logo-badge svg { width: 32px; height: 32px; display: block; }
+.topbar-logo-name { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; color: var(--text-1); }
+.topbar-logo-sub { font-weight: 500; color: var(--text-3); }
+
+/* ---------- 居中区（搜索 + 时钟 + 天气，弹性收缩防挤压错位） ---------- */
+.topbar-center {
+  flex: 1 1 auto; min-width: 0;
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px;
+}
+
+.topbar-search {
+  display: flex; align-items: center; gap: 8px;
+  flex: 0 1 360px; min-width: 118px;
+  padding: 8px 12px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+}
+.topbar-engine-btn { display: flex; align-items: center; }
+.topbar-engine-fallback {
+  border-radius: 5px; color: var(--on-primary); font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.topbar-search-divider { width: 1px; height: 16px; background: var(--line); flex-shrink: 0; }
+.topbar-search-input {
+  flex: 1; min-width: 0;
+  border: none; outline: none; background: none;
+  font-size: 13px; color: var(--text-1);
+}
+.topbar-search-input::placeholder { color: var(--text-3); }
+.topbar-search-clear { display: flex; align-items: center; padding: 2px; color: var(--text-3); }
+.topbar-search-clear .icon { width: 12px; height: 12px; }
+.topbar-search-go {
+  width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0;
+  background: var(--primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.topbar-search-go:hover { opacity: .9; }
+.topbar-search-go .icon { width: 13px; height: 13px; }
+
+/* ---------- 时钟（ClockView.swift） ---------- */
+.topbar-clock {
+  display: flex; align-items: center;
+  padding: 6px 10px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  flex-shrink: 0;
+}
+.topbar-cal-badge {
+  width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+  background: var(--primary-grad);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #fff;
+}
+.topbar-cal-badge-month { font-size: 8px; font-weight: 600; line-height: 1.1; }
+.topbar-cal-badge-day { font-size: 14px; font-weight: 700; line-height: 1.1; }
+.topbar-clock-mid {
+  display: flex; flex-direction: column; gap: 3px; align-items: flex-start;
+  margin-left: 10px; min-width: 118px;
+}
+.topbar-clock-date { display: flex; align-items: center; gap: 5px; }
+.topbar-clock-date-full { font-size: 11px; font-weight: 500; color: var(--text-1); }
+.topbar-clock-weekday {
+  font-size: 10px; font-weight: 500; color: var(--primary);
+  padding: 1px 4px; border-radius: 3px; background: rgba(255, 122, 71, .1);
+}
+.topbar-clock-lunar { font-size: 10px; color: var(--text-3); }
+.topbar-clock-sep { width: 1px; height: 28px; background: var(--line); margin: 0 10px; flex-shrink: 0; }
+.topbar-clock-time {
+  font-size: 15px; font-weight: 600; color: var(--text-1);
+  font-variant-numeric: tabular-nums; letter-spacing: .3px;
+}
+
+/* ---------- 日历弹层 ---------- */
+.topbar-dd.calendar { width: 288px; border-radius: 12px; padding: 14px; }
+.topbar-cal-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+}
+.topbar-cal-title { font-size: 13px; font-weight: 600; color: var(--text-1); }
+.topbar-cal-nav {
+  display: flex; align-items: center; padding: 4px; border-radius: 6px; color: var(--text-2);
+}
+.topbar-cal-nav:hover { background: var(--surface-2); }
+.topbar-cal-nav .icon { width: 12px; height: 12px; }
+.topbar-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.topbar-cal-wd {
+  font-size: 10px; color: var(--text-3); text-align: center; padding: 4px 0;
+}
+.topbar-cal-day {
+  font-size: 12px; color: var(--text-1); text-align: center;
+  padding: 4px 0 2px; border-radius: 7px; cursor: default;
+}
+.topbar-cal-day:hover { background: var(--surface-2); }
+.topbar-cal-day.today {
+  background: var(--primary-grad); color: #fff; font-weight: 600;
+}
+.topbar-cal-daynum { line-height: 1.3; }
+/* 格子下方节日/节气小字：假日橙、节气青、调休班蓝、今日格子内为白色 */
+.topbar-cal-festival {
+  font-size: 8px; font-weight: 500; line-height: 1.25; height: 10px;
+  color: var(--orange);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  padding: 0 2px;
+}
+.topbar-cal-festival.term { color: var(--cyan); }
+.topbar-cal-festival.work { color: var(--primary); }
+.topbar-cal-day.today .topbar-cal-festival { color: rgba(255, 255, 255, .95); }
+.topbar-cal-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 10px; min-height: 18px;
+}
+.topbar-cal-detail { font-size: 11px; color: var(--text-2); }
+
+/* ---------- 天气入口（内联完整展示，WeatherView.swift） + 弹层 ---------- */
+.topbar-weather {
+  display: flex; align-items: center;
+  padding: 6px 10px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  flex-shrink: 0;
+}
+.topbar-weather-icon { width: 20px; height: 20px; margin: 0 8px 0 0; flex-shrink: 0; }
+.topbar-weather .spinner { flex-shrink: 0; }
+.topbar-weather-hint { font-size: 11px; color: var(--text-3); white-space: nowrap; }
+.topbar-weather-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.topbar-weather-city {
+  font-size: 11px; font-weight: 500; color: var(--text-1);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 96px;
+}
+.topbar-weather-desc { font-size: 10px; color: var(--text-3); white-space: nowrap; }
+.topbar-weather-sep { width: 1px; height: 28px; background: var(--line); margin: 0 10px; flex-shrink: 0; }
+.topbar-weather-temps { display: flex; flex-direction: column; gap: 2px; font-variant-numeric: tabular-nums; }
+.topbar-weather-cur { font-size: 16px; font-weight: 700; color: var(--text-1); line-height: 1.1; }
+.topbar-weather-range { display: flex; align-items: center; gap: 4px; font-size: 9px; color: var(--text-4); }
+.topbar-weather-min { color: #66a6f2; font-weight: 500; }
+.topbar-weather-max { color: #f2734d; font-weight: 500; }
+
+/* ---------- 右侧：通知 + 头像 ---------- */
+.topbar-right { flex-shrink: 0; margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.topbar-bell { position: relative; display: flex; padding: 8px; color: var(--text-2); }
+.topbar-bell .icon { width: 18px; height: 18px; }
+.topbar-badge {
+  position: absolute; top: 0; right: -3px;
+  min-width: 14px; padding: 1px 5px; border-radius: 999px;
+  background: var(--red); color: #fff;
+  font-size: 9px; font-weight: 700; line-height: 1.3; text-align: center;
+}
+.topbar-avatar-btn { display: flex; border-radius: 50%; }
+
+/* 新版本提示胶囊（发现新版本时显示，点击下载当前平台安装包） */
+.update-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; line-height: 1;
+  padding: 6px 11px; border-radius: 999px;
+  color: var(--on-primary); background: var(--primary-grad);
+  white-space: nowrap;
+  animation: update-pill-in .3s ease;
+}
+.update-pill .icon { width: 11px; height: 11px; }
+.update-pill:hover { filter: brightness(1.08); }
+.update-pill.downloading { pointer-events: none; background: var(--surface-2); color: var(--primary); }
+.update-pill.done { pointer-events: none; background: rgba(51, 179, 140, .12); color: var(--green); }
+@keyframes update-pill-in {
+  from { transform: translateY(-4px) scale(.9); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+/* ---------- 下拉弹层 ---------- */
+.topbar-dd {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-pop);
+  z-index: 200;
+  animation: topbar-dd-in .15s ease-out;
+}
+@keyframes topbar-dd-in { from { opacity: 0; transform: translateY(-4px); } }
+
+.topbar-dd.engine { width: 140px; border-radius: 10px; padding: 4px 0; }
+.topbar-dd-item {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 8px 12px;
+  font-size: 13px; color: var(--text-1); text-align: left;
+}
+.topbar-dd-item:hover { background: var(--surface-2); }
+.topbar-dd-check { margin-left: auto; color: var(--primary); width: 11px; height: 11px; }
+
+.topbar-dd.avatar {
+  width: 248px; border-radius: var(--radius); overflow: hidden;
+  border-color: var(--line); box-shadow: var(--shadow-pop);
+}
+
+/* 头部信息区：柔和渐变底 + 层级化排布 */
+.topbar-userinfo {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f0f4ff 0%, #f6f1ff 100%);
+}
+html[data-theme="dark"] .topbar-userinfo {
+  background: linear-gradient(135deg, #232b3d 0%, #2b2440 100%);
+}
+.topbar-userinfo-text { min-width: 0; }
+.topbar-userinfo-name {
+  font-size: 14px; font-weight: 600; color: var(--text-1);
+  line-height: 1.3;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.topbar-userinfo-phone {
+  font-size: 12px; color: var(--text-3);
+  margin-top: 3px; letter-spacing: .2px;
+  font-variant-numeric: tabular-nums;
+}
+.topbar-userinfo-badge { margin-top: 6px; }
+.topbar-motto {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 10px 16px;
+  font-size: 12px; color: var(--text-2); line-height: 1.5;
+  user-select: text;
+}
+.topbar-motto .icon { width: 13px; height: 13px; color: var(--text-3); flex: none; margin-top: 2px; }
+.topbar-motto-text {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.topbar-dd-divider { height: 1px; background: var(--line); }
+
+/* 菜单行：44px 触控热区 + hover/active 反馈 */
+.topbar-dd-row {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; min-height: 44px; padding: 0 16px;
+  font-size: 13px; color: var(--text-1); text-align: left;
+  background: transparent;
+  transition: background .12s ease, color .12s ease;
+}
+.topbar-dd-row .icon { width: 16px; height: 16px; color: var(--text-2); flex: none; transition: color .12s ease; }
+.topbar-dd-row .topbar-dd-arrow { margin-left: auto; width: 13px; height: 13px; color: var(--text-3); flex: none; }
+.topbar-dd-row:hover { background: var(--surface-2); }
+.topbar-dd-row:active { background: var(--surface-3); }
+.topbar-dd-row:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.topbar-dd-row.danger, .topbar-dd-row.danger .icon { color: var(--red); }
+.topbar-dd-row.danger:hover, .topbar-dd-row.danger:active { background: var(--danger-bg); }
+
+/* ---------- 主题切换器（左=太阳·浅色 / 右=月亮·暗黑） ---------- */
+.topbar-theme-row {
+  display: flex; align-items: center;
+  min-height: 44px; padding: 6px 16px;
+}
+.topbar-theme-toggle {
+  display: flex; align-items: center; gap: 4px;
+  width: 100%; height: 32px; padding: 3px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.topbar-theme-opt {
+  flex: 1; height: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  border-radius: 7px; color: var(--text-3); font-size: 12px;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.topbar-theme-opt .icon { width: 15px; height: 15px; }
+.topbar-theme-opt:hover { color: var(--text-1); }
+.topbar-theme-opt.active {
+  background: var(--surface); color: var(--primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+}
+html[data-theme="dark"] .topbar-theme-opt.active {
+  background: var(--surface-3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .35);
+}
+.topbar-theme-opt:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+
+/* 头像下拉内的壁纸开关行：开关靠右，整行不做按钮态 */
+.topbar-dd-row.wallpaper-row .wp-switch { margin-left: auto; }
+.topbar-dd-row.wallpaper-row:hover { background: transparent; }
+
+/* ---------- 窄窗口：逐级精简时钟/天气信息，避免挤压搜索框 ---------- */
+@media (max-width: 1120px) {
+  .topbar-clock-lunar, .topbar-weather-desc, .weather-desc { display: none; }
+}
+@media (max-width: 1020px) {
+  .topbar-clock-mid, .topbar-clock-sep { display: none; }
+  .topbar-clock-time { margin-left: 10px; }
+  .topbar-weather-city, .weather-city { max-width: 64px; }
+}
+@media (max-width: 930px) {
+  .topbar-weather-main, .topbar-weather-sep,
+  .weather-info, .weather-divider { display: none; }
+  .topbar-search { min-width: 100px; }
+}

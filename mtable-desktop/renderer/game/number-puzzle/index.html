@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字华容道</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="brand"><span class="icon">🔢</span>数字华容道</div>
+    <div class="levels" id="levels">
+      <button data-size="3">3×3</button>
+      <button data-size="4">4×4</button>
+      <button data-size="5">5×5</button>
+    </div>
+    <div class="tools">
+      <button class="tool" id="autoBtn" title="自动完成提示">✨</button>
+      <button class="tool" id="soundBtn" title="音效开关">🔔</button>
+      <button class="tool" id="resetBtn" title="重置游戏">🔄</button>
+    </div>
+  </div>
+
+  <div class="hint">点击方块移动，按数字顺序排列即可完成挑战</div>
+
+  <div class="hud">
+    <div class="hud-item">
+      <div class="label">步数</div>
+      <div class="counter" id="moveCounter">000</div>
+    </div>
+    <div class="hud-item">
+      <div class="label">用时</div>
+      <div class="counter time" id="timer">00:00</div>
+    </div>
+  </div>
+
+  <div class="board-wrap" id="boardWrap">
+    <div class="board" id="board"></div>
+  </div>
+
+  <div class="status"><span id="status"></span></div>
+</div>
+
+<div class="modal hidden" id="confirmModal">
+  <div class="modal-card">
+    <h3 id="confirmTitle"></h3>
+    <p class="modal-msg" id="confirmMsg"></p>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="confirmCancel">取消</button>
+      <button class="btn-ok" id="confirmOk">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script src="game.js"></script>
+</body>
+</html>

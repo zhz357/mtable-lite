@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>俄罗斯方块</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app" id="app">
+  <div class="top">
+    <div class="brand"><span class="icon">🧱</span>俄罗斯方块</div>
+    <div class="levels" id="levels">
+      <button data-difficulty="easy">简单</button>
+      <button data-difficulty="medium">中等</button>
+      <button data-difficulty="hard">困难</button>
+    </div>
+    <div class="tools">
+      <button class="tool" id="pauseBtn" title="暂停 / 继续">⏸</button>
+      <button class="tool" id="restartBtn" title="重新开始">🔄</button>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="board-wrap" id="boardWrap" tabindex="0">
+      <canvas id="board"></canvas>
+      <div class="overlay hidden" id="overlay">
+        <div class="overlay-card">
+          <h3 id="overlayTitle"></h3>
+          <p id="overlayMsg"></p>
+          <button class="btn-ok" id="overlayBtn"></button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side" id="side">
+      <div class="panel">
+        <div class="label">下一个</div>
+        <canvas id="next"></canvas>
+      </div>
+      <div class="panel hud">
+        <div class="hud-item">
+          <div class="label">得分</div>
+          <div class="counter" id="score">0</div>
+        </div>
+        <div class="hud-row">
+          <div class="hud-item">
+            <div class="label">等级</div>
+            <div class="counter time" id="level">Lv 1</div>
+          </div>
+          <div class="hud-item">
+            <div class="label">消除</div>
+            <div class="counter" id="lines">0</div>
+          </div>
+        </div>
+        <div class="diff-name" id="diffName"></div>
+        <div class="best-tag" id="best"></div>
+      </div>
+      <div class="panel pad">
+        <div class="pad-grid">
+          <button data-act="left" title="左移">←</button>
+          <button data-act="rotate" title="旋转">↻</button>
+          <button data-act="right" title="右移">→</button>
+          <button data-act="down" title="软降">↓</button>
+          <button data-act="drop" title="硬降">⇊</button>
+          <button data-act="pause" title="暂停 / 继续">⏸</button>
+        </div>
+        <button class="pad-wide" data-act="restart" title="重新开始">🔄 重新开始</button>
+      </div>
+    </aside>
+  </div>
+
+  <div class="status"><span id="status"></span></div>
+</div>
+
+<script src="logic.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

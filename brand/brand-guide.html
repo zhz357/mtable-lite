@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MTable 品牌标识方案</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Inter','SF Pro Display','PingFang SC','Helvetica Neue',Arial,sans-serif;
+    background:#F4F5F7; color:#232733; -webkit-font-smoothing:antialiased;
+    padding:56px 28px 90px;
+  }
+  .wrap { max-width:1180px; margin:0 auto; }
+  header { text-align:center; margin-bottom:56px; }
+  .eyebrow {
+    display:inline-block; font-size:12px; letter-spacing:3.6px; font-weight:600;
+    color:#8A90A6; text-transform:uppercase; margin-bottom:16px;
+  }
+  h1 { font-size:44px; font-weight:700; letter-spacing:-1.2px; color:#1B1E2B; }
+  h1 span { font-weight:400; color:#9498AB; }
+  .lead { margin:18px auto 0; max-width:620px; font-size:16px; line-height:1.75; color:#6B7089; }
+
+  .scheme { margin-bottom:72px; }
+  .scheme-head {
+    display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap;
+    padding-bottom:20px; margin-bottom:30px; border-bottom:1px solid #E2E4EA;
+  }
+  .badge {
+    font-size:12px; font-weight:700; letter-spacing:1.6px; padding:7px 14px;
+    border-radius:100px; color:#fff;
+  }
+  .scheme-head h2 { font-size:28px; font-weight:700; letter-spacing:-0.6px; }
+  .scheme-head p { font-size:14.5px; color:#767B92; margin-left:auto; }
+
+  .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:22px; }
+  .card {
+    background:#fff; border-radius:20px; padding:26px;
+    box-shadow:0 1px 2px rgba(20,24,40,.05),0 12px 32px rgba(20,24,40,.06);
+  }
+  .card h3 {
+    font-size:11.5px; letter-spacing:2.2px; text-transform:uppercase;
+    color:#9AA0B4; font-weight:700; margin-bottom:20px;
+  }
+  .col-6 { grid-column:span 6; } .col-4 { grid-column:span 4; } .col-12 { grid-column:span 12; }
+
+  .icon-demo { display:flex; align-items:center; gap:26px; flex-wrap:wrap; }
+  .icon-demo img.big { width:186px; height:186px; border-radius:42px;
+    box-shadow:0 16px 36px rgba(20,24,40,.14); }
+  .sizes { display:flex; align-items:flex-end; gap:18px; }
+  .size-item { text-align:center; }
+  .size-item img { display:block; margin:0 auto 8px;
+    box-shadow:0 4px 12px rgba(20,24,40,.12); }
+  .size-item small { font-size:10.5px; color:#A2A7B9; font-weight:600; }
+
+  .navbar-mock {
+    border-radius:14px; padding:16px 22px; display:flex; align-items:center; gap:18px;
+    box-shadow:inset 0 0 0 1px rgba(20,24,40,.06);
+  }
+  .navbar-mock img { height:40px; }
+  .nav-links { margin-left:auto; display:flex; gap:22px; }
+  .nav-links i {
+    font-style:normal; font-size:13.5px; font-weight:500; color:#787D94;
+  }
+  .card-mock img { width:100%; display:block; border-radius:14px;
+    box-shadow:0 18px 40px rgba(20,24,40,.16); }
+
+  .swatches { display:flex; gap:14px; flex-wrap:wrap; }
+  .sw {
+    flex:1 1 132px; border-radius:13px; overflow:hidden;
+    box-shadow:0 1px 2px rgba(20,24,40,.06),0 6px 18px rgba(20,24,40,.05);
+  }
+  .sw .chip { height:72px; }
+  .sw .meta { padding:11px 13px; background:#fff; }
+  .sw .meta b { display:block; font-size:11px; letter-spacing:1.2px;
+    text-transform:uppercase; color:#8D93A7; margin-bottom:3px; }
+  .sw .meta code { font-size:12.5px; color:#2A2E3D; font-weight:600;
+    font-family:'SF Mono',Menlo,monospace; }
+
+  .lockup-stage {
+    border-radius:18px; padding:52px 30px; display:flex;
+    align-items:center; justify-content:center; gap:22px; flex-wrap:wrap;
+  }
+  .lockup-stage img { height:78px; }
+  .lockup-stage img.mark { height:128px; }
+
+  .note {
+    margin-top:26px; background:#fff; border-radius:18px; padding:26px 30px;
+    box-shadow:0 1px 2px rgba(20,24,40,.05),0 12px 32px rgba(20,24,40,.05);
+  }
+  .note h3 { font-size:15px; margin-bottom:12px; letter-spacing:-0.2px; }
+  .note ul { margin-left:19px; color:#666B82; font-size:14px; line-height:2.05; }
+  .note code {
+    background:#F2F3F7; padding:2.5px 8px; border-radius:6px;
+    font-family:'SF Mono',Menlo,monospace; font-size:12.5px; color:#3D4256;
+  }
+  footer { text-align:center; margin-top:64px; font-size:13px; color:#A4A8B8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Brand Identity · 2026</div>
+  <h1>MTable <span>品牌标识系统</span></h1>
+  <p class="lead">以字母「M」为核心，采用立体挤出造型与柔和浅色背景，构建轻盈、现代、专业的品牌视觉。
+    以下三组浅色系配色方案均提供应用图标、导航栏、名片印刷与小尺寸适配版本。</p>
+</header>
+
+<!-- ============ 方案一 ============ -->
+<section class="scheme">
+  <div class="scheme-head">
+    <div class="badge" style="background:linear-gradient(135deg,#5B6CF0,#4356D8)">方案 01</div>
+    <h2>晨雾米白 · 靛蓝</h2>
+    <p>最中性稳妥的一组，适合产品主视觉与办公协作调性</p>
+  </div>
+
+  <div class="grid">
+    <div class="card col-6">
+      <h3>应用图标 · App Icon</h3>
+      <div class="icon-demo">
+        <img class="big" src="svg/icon-cream.svg" alt="米白图标">
+        <div class="sizes">
+          <div class="size-item"><img src="svg/icon-cream.svg" width="48" height="48" style="border-radius:11px"><small>48</small></div>
+          <div class="size-item"><img src="svg/icon-cream.svg" width="32" height="32" style="border-radius:7px"><small>32</small></div>
+          <div class="size-item"><img src="svg/icon-cream.svg" width="24" height="24" style="border-radius:5.5px"><small>24</small></div>
+          <div class="size-item"><img src="svg/icon-cream.svg" width="16" height="16" style="border-radius:4px"><small>16</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card col-6">
+      <h3>导航栏 · Navbar</h3>
+      <div class="navbar-mock" style="background:#FBF8F3">
+        <img src="svg/logo-horizontal-cream.svg" alt="米白横版">
+        <div class="nav-links"><i>首页</i><i>菜单</i><i>卡片</i><i>设置</i></div>
+      </div>
+      <div class="lockup-stage" style="background:#FBF8F3; margin-top:18px; padding:34px 20px">
+        <img class="mark" src="svg/icon-cream.svg" alt="" style="height:88px">
+        <img src="svg/logo-horizontal-cream.svg" alt="" style="height:46px">
+      </div>
+    </div>
+
+    <div class="card col-6">
+      <h3>名片印刷 · Business Card</h3>
+      <div class="card-mock"><img src="svg/card-cream.svg" alt="米白名片"></div>
+    </div>
+
+    <div class="card col-6">
+      <h3>配色规范 · Palette</h3>
+      <div class="swatches">
+        <div class="sw"><div class="chip" style="background:#FCF8F2"></div><div class="meta"><b>背景 · 米白</b><code>#FCF8F2</code></div></div>
+        <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#8B9BF8,#4356D8)"></div><div class="meta"><b>主色 · 靛蓝</b><code>#5B6CF0</code></div></div>
+        <div class="sw"><div class="chip" style="background:#33409F"></div><div class="meta"><b>立体侧面</b><code>#33409F</code></div></div>
+        <div class="sw"><div class="chip" style="background:#2A2F52"></div><div class="meta"><b>文字</b><code>#2A2F52</code></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 方案二 ============ -->
+<section class="scheme">
+  <div class="scheme-head">
+    <div class="badge" style="background:linear-gradient(135deg,#1FA6BA,#17839B)">方案 02</div>
+    <h2>极简浅灰 · 青蓝</h2>
+    <p>冷静克制、科技感更强，适合数据与工具类产品</p>
+  </div>
+
+  <div class="grid">
+    <div class="card col-6">
+      <h3>应用图标 · App Icon</h3>
+      <div class="icon-demo">
+        <img class="big" src="svg/icon-mist.svg" alt="浅灰图标">
+        <div class="sizes">
+          <div class="size-item"><img src="svg/icon-mist.svg" width="48" height="48" style="border-radius:11px"><small>48</small></div>
+          <div class="size-item"><img src="svg/icon-mist.svg" width="32" height="32" style="border-radius:7px"><small>32</small></div>
+          <div class="size-item"><img src="svg/icon-mist.svg" width="24" height="24" style="border-radius:5.5px"><small>24</small></div>
+          <div class="size-item"><img src="svg/icon-mist.svg" width="16" height="16" style="border-radius:4px"><small>16</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card col-6">
+      <h3>导航栏 · Navbar</h3>
+      <div class="navbar-mock" style="background:#F6F8FB">
+        <img src="svg/logo-horizontal-mist.svg" alt="浅灰横版">
+        <div class="nav-links"><i>首页</i><i>菜单</i><i>卡片</i><i>设置</i></div>
+      </div>
+      <div class="lockup-stage" style="background:#F6F8FB; margin-top:18px; padding:34px 20px">
+        <img class="mark" src="svg/icon-mist.svg" alt="" style="height:88px">
+        <img src="svg/logo-horizontal-mist.svg" alt="" style="height:46px">
+      </div>
+    </div>
+
+    <div class="card col-6">
+      <h3>名片印刷 · Business Card</h3>
+      <div class="card-mock"><img src="svg/card-mist.svg" alt="浅灰名片"></div>
+    </div>
+
+    <div class="card col-6">
+      <h3>配色规范 · Palette</h3>
+      <div class="swatches">
+        <div class="sw"><div class="chip" style="background:#F7F9FC"></div><div class="meta"><b>背景 · 浅灰</b><code>#F7F9FC</code></div></div>
+        <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#5FD3DC,#17839B)"></div><div class="meta"><b>主色 · 青蓝</b><code>#1FA6BA</code></div></div>
+        <div class="sw"><div class="chip" style="background:#106273"></div><div class="meta"><b>立体侧面</b><code>#106273</code></div></div>
+        <div class="sw"><div class="chip" style="background:#1B2A3D"></div><div class="meta"><b>文字</b><code>#1B2A3D</code></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 方案三 ============ -->
+<section class="scheme">
+  <div class="scheme-head">
+    <div class="badge" style="background:linear-gradient(135deg,#FF7A47,#E85A2C)">方案 03</div>
+    <h2>暖阳奶油 · 珊瑚橙</h2>
+    <p>亲和力最强、辨识度高，适合生活与效率工具调性</p>
+  </div>
+
+  <div class="grid">
+    <div class="card col-6">
+      <h3>应用图标 · App Icon</h3>
+      <div class="icon-demo">
+        <img class="big" src="svg/icon-ivory.svg" alt="奶油图标">
+        <div class="sizes">
+          <div class="size-item"><img src="svg/icon-ivory.svg" width="48" height="48" style="border-radius:11px"><small>48</small></div>
+          <div class="size-item"><img src="svg/icon-ivory.svg" width="32" height="32" style="border-radius:7px"><small>32</small></div>
+          <div class="size-item"><img src="svg/icon-ivory.svg" width="24" height="24" style="border-radius:5.5px"><small>24</small></div>
+          <div class="size-item"><img src="svg/icon-ivory.svg" width="16" height="16" style="border-radius:4px"><small>16</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card col-6">
+      <h3>导航栏 · Navbar</h3>
+      <div class="navbar-mock" style="background:#FFF8F1">
+        <img src="svg/logo-horizontal-ivory.svg" alt="奶油横版">
+        <div class="nav-links"><i>首页</i><i>菜单</i><i>卡片</i><i>设置</i></div>
+      </div>
+      <div class="lockup-stage" style="background:#FFF8F1; margin-top:18px; padding:34px 20px">
+        <img class="mark" src="svg/icon-ivory.svg" alt="" style="height:88px">
+        <img src="svg/logo-horizontal-ivory.svg" alt="" style="height:46px">
+      </div>
+    </div>
+
+    <div class="card col-6">
+      <h3>名片印刷 · Business Card</h3>
+      <div class="card-mock"><img src="svg/card-ivory.svg" alt="奶油名片"></div>
+    </div>
+
+    <div class="card col-6">
+      <h3>配色规范 · Palette</h3>
+      <div class="swatches">
+        <div class="sw"><div class="chip" style="background:#FFF9F2"></div><div class="meta"><b>背景 · 奶油</b><code>#FFF9F2</code></div></div>
+        <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#FFA66B,#E85A2C)"></div><div class="meta"><b>主色 · 珊瑚橙</b><code>#FF7A47</code></div></div>
+        <div class="sw"><div class="chip" style="background:#B4491F"></div><div class="meta"><b>立体侧面</b><code>#B4491F</code></div></div>
+        <div class="sw"><div class="chip" style="background:#3A2A22"></div><div class="meta"><b>文字</b><code>#3A2A22</code></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="note">
+  <h3>设计与使用说明</h3>
+  <ul>
+    <li><b>立体造型</b>：M 采用 12 层渐进挤出叠影 + 前脸渐变 + 顶部高光描边，形成由左上光源投射的浮雕质感。</li>
+    <li><b>小尺寸适配</b>：字形笔画加粗（笔画宽 ≈ 17/100 字高），16px 下仍可清晰辨识 M 轮廓。</li>
+    <li><b>背景</b>：浅色斜向渐变 + 左上柔光，保证背景干净不抢主体；四角为 22.7% 超椭圆圆角。</li>
+    <li><b>源文件</b>：全部为矢量 SVG，位于 <code>brand/svg/</code>，可无损缩放至任意尺寸（含 <code>@2x/@3x</code>）。</li>
+    <li><b>导出建议</b>：macOS 图标用 <code>iconutil</code> 由 SVG 栅格化生成 iconset；Windows 用 <code>scripts/build-ico.js</code>。</li>
+  </ul>
+</div>
+
+<footer>MTable Brand Identity · 3 Schemes · SVG Master Files</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,226 @@
+/* quota.css — 模型额度插件 */
+
+.qt-root {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.qt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.qt-title { font-size: 22px; font-weight: 700; color: var(--text-1); }
+.qt-subtitle { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+.qt-header-actions { display: flex; gap: 8px; }
+
+.qt-icon-btn {
+  width: 32px; height: 32px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line); border-radius: 9px;
+  background: var(--surface); color: var(--text-2);
+  cursor: pointer; transition: all .15s;
+}
+.qt-icon-btn:hover { color: var(--primary); border-color: var(--primary); }
+.qt-icon-btn:disabled { opacity: .45; cursor: default; }
+.qt-icon-btn.sm { width: 26px; height: 26px; border-radius: 7px; }
+.qt-icon-btn.sm .icon { width: 12px; height: 12px; }
+.qt-icon-btn.danger:hover { color: var(--red); border-color: var(--red); }
+
+.qt-btn-primary {
+  display: inline-flex; align-items: center; gap: 5px;
+  border: none; border-radius: 9px;
+  background: var(--primary-grad); color: var(--on-primary);
+  font-size: 13px; padding: 7px 14px; cursor: pointer;
+}
+.qt-btn-primary:hover { filter: brightness(1.06); }
+.qt-icon-btn .icon { width: 15px; height: 15px; }
+.qt-icon-btn.sm .icon { width: 12px; height: 12px; }
+
+.qt-spin { animation: qt-rotate 1s linear infinite; }
+@keyframes qt-rotate { to { transform: rotate(360deg); } }
+
+.qt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  align-content: start;
+}
+
+.qt-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 150px;
+}
+
+.qt-card-head { display: flex; align-items: center; justify-content: space-between; }
+.qt-card-actions { display: flex; gap: 6px; }
+.qt-card-name {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 15px; font-weight: 600; color: var(--text-1);
+}
+.qt-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--qt-accent, var(--primary));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--qt-accent, var(--primary)) 18%, transparent);
+}
+
+.qt-remaining {
+  font-size: 26px; font-weight: 700; color: var(--text-1);
+  display: flex; align-items: baseline; gap: 8px;
+}
+.qt-remaining-label { font-size: 12px; font-weight: 400; color: var(--text-3); }
+
+.qt-progress {
+  height: 6px; border-radius: 3px;
+  background: var(--surface-3); overflow: hidden;
+}
+.qt-progress-fill {
+  height: 100%; border-radius: 3px;
+  background: var(--qt-accent, var(--primary));
+  transition: width .3s;
+}
+.qt-progress-fill.low { background: var(--red); }
+
+.qt-stats { display: flex; align-items: flex-end; gap: 18px; }
+.qt-stat { display: flex; flex-direction: column; gap: 4px; }
+.qt-stat-v { font-size: 14px; font-weight: 600; color: var(--text-1); }
+.qt-stat-k { font-size: 11px; color: var(--text-3); }
+
+.qt-trend {
+  display: flex; align-items: flex-end; gap: 3px;
+  height: 36px; padding: 2px 0;
+}
+.qt-trend-bar {
+  width: 7px; border-radius: 2px;
+  background: color-mix(in srgb, var(--qt-accent, var(--primary)) 55%, transparent);
+}
+.qt-trend-bar:hover { background: var(--qt-accent, var(--primary)); }
+
+.qt-rows { display: flex; flex-direction: column; gap: 4px; }
+.qt-row {
+  display: flex; justify-content: space-between;
+  font-size: 12px; color: var(--text-2);
+}
+.qt-row-v { font-weight: 600; color: var(--text-1); }
+
+.qt-pack {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text-2);
+  background: var(--surface-2);
+  border-radius: 8px; padding: 7px 10px;
+}
+.qt-pack.warn { background: #fdf3e7; color: #b26a1f; }
+.qt-pack.dead { background: var(--danger-bg); color: var(--red); }
+html[data-theme="dark"] .qt-pack.warn { background: #3a2f1f; color: var(--orange); }
+.qt-pack-expire { margin-left: auto; color: var(--text-3); }
+.qt-pack.warn .qt-pack-expire, .qt-pack.dead .qt-pack-expire { color: inherit; font-weight: 600; }
+
+.qt-error {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--red);
+  word-break: break-all;
+}
+
+.qt-empty {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 10px;
+  font-size: 12px; color: var(--text-3);
+}
+
+.qt-btn-ghost {
+  border: 1px solid var(--line); background: var(--surface);
+  color: var(--primary); border-radius: 8px;
+  padding: 5px 14px; font-size: 12px; cursor: pointer;
+}
+.qt-btn-ghost:hover { border-color: var(--primary); }
+
+.qt-foot {
+  margin-top: auto;
+  display: flex; flex-direction: column; gap: 2px;
+  font-size: 11px; color: var(--text-4);
+}
+.qt-foot-err { color: var(--orange); }
+
+/* ---------- 空态 ---------- */
+.qt-page-empty {
+  grid-column: 1 / -1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 70px 20px;
+  color: var(--text-3); font-size: 12px;
+}
+.qt-page-empty .icon { color: var(--text-4); }
+.qt-page-empty-title { font-size: 16px; font-weight: 600; color: var(--text-1); }
+
+/* ---------- 厂商选择 chips ---------- */
+.qt-preset-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.qt-preset-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface-2); color: var(--text-2);
+  font-size: 12px; padding: 6px 12px; cursor: pointer;
+}
+.qt-preset-chip:hover { border-color: var(--primary); }
+.qt-preset-chip.selected { border-color: var(--primary); color: var(--primary); background: var(--surface); }
+.qt-preset-chip:disabled { opacity: .5; cursor: default; }
+.qt-preset-chip .qt-dot { width: 7px; height: 7px; box-shadow: none; }
+.qt-chip-added { font-size: 10px; color: var(--text-4); }
+.qt-chip-tag {
+  font-size: 10px; padding: 1px 5px; border-radius: 4px;
+  background: #e8f3ff; color: var(--primary);
+}
+.qt-chip-tag.grey { background: var(--surface-3); color: var(--text-3); }
+html[data-theme="dark"] .qt-chip-tag { background: color-mix(in srgb, var(--primary) 22%, transparent); }
+
+/* ---------- 设置弹窗 ---------- */
+.qt-dialog {
+  width: 520px; max-width: 92vw;
+  background: var(--surface);
+  border-radius: 14px; box-shadow: var(--shadow-pop);
+  padding: 22px 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  max-height: 86vh; overflow-y: auto;
+}
+.qt-dialog-fields { display: flex; flex-direction: column; gap: 12px; }
+.qt-dialog-row { display: flex; gap: 12px; }
+.qt-dialog-row .qt-dialog-field { flex: 1; }
+.qt-dialog h3 { font-size: 17px; font-weight: 700; color: var(--text-1); }
+.qt-dialog-hint { font-size: 12px; color: var(--text-3); margin-top: -8px; }
+.qt-dialog-field { display: flex; flex-direction: column; gap: 5px; }
+.qt-dialog-field label { font-size: 12px; color: var(--text-2); }
+.qt-dialog-input {
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface-2); color: var(--text-1);
+  font-size: 13px; padding: 8px 10px; outline: none;
+  font-family: var(--font);
+}
+.qt-dialog-input:focus { border-color: var(--primary); }
+.qt-dialog-error { display: none; font-size: 12px; color: var(--red); }
+.qt-dialog-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.qt-dialog-cancel {
+  border: 1px solid var(--line); background: var(--surface);
+  color: var(--text-2); border-radius: 8px;
+  padding: 7px 16px; font-size: 13px; cursor: pointer;
+}
+.qt-dialog-submit {
+  border: none; background: var(--primary-grad);
+  color: var(--on-primary); border-radius: 8px;
+  padding: 7px 18px; font-size: 13px; cursor: pointer;
+}
+.qt-dialog-submit:hover { filter: brightness(1.06); }

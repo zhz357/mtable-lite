@@ -1,0 +1,96 @@
+{
+  "name": "mtable-desktop",
+  "productName": "MTable",
+  "version": "1.1.17",
+  "description": "MTable 跨平台桌面客户端（macOS / Windows）",
+  "author": "MTable",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "electron-builder install-app-deps",
+    "bump": "node scripts/bump-version.js",
+    "prune": "node scripts/prune-dist.js",
+    "dist:mac": "npm run bump && electron-builder --mac -c.productName=MTable-$(node -p \"require('./package.json').version\") -c.directories.output=dist/macos && npm run prune",
+    "dist:win": "npm run bump && electron-builder --win -c.directories.output=dist/windows && npm run prune",
+    "dist": "bash build.sh"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^11.10.0"
+  },
+  "build": {
+    "appId": "com.mtable.app",
+    "productName": "MTable",
+    "asar": true,
+    "directories": {
+      "output": "dist/staging"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "main/**/*",
+      "renderer/**/*"
+    ],
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "build/icon.icns",
+      "category": "public.app-category.productivity",
+      "artifactName": "MTable-${version}-mac.${ext}"
+    },
+    "dmg": {
+      "title": "MTable",
+      "window": {
+        "width": 620,
+        "height": 400
+      },
+      "contents": [
+        {
+          "x": 160,
+          "y": 220,
+          "type": "file"
+        },
+        {
+          "x": 460,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MTable",
+      "uninstallDisplayName": "MTable ${version}",
+      "artifactName": "MTable-${version}-windows.${ext}"
+    }
+  }
+}

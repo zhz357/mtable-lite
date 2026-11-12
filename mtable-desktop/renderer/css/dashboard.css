@@ -1,0 +1,623 @@
+/* dashboard.css — 首页工作台（对应 DashboardView.swift） */
+
+.dash-root {
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+/* 双列主区域：左侧主内容与右侧栏（热搜 + 今日便签）各自独立滚动 */
+.dash-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.dash-scroll {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  /* 阻止横向滚动条（柱状图自适应宽度、标签溢出时会被裁掉），避免窄窗口下滚动条反复出现/消失引发整页抖动 */
+  overflow-x: hidden;
+  /* 为纵向滚动条恒定预留空间：滚动条出现/消失不再改变内容宽度（抖动的根治手段） */
+  scrollbar-gutter: stable;
+  padding: 28px 24px 32px 32px;
+}
+
+/* 右侧栏：热搜榜 + 今日便签（宽度随窗口收敛，窄屏并入主内容下方） */
+.dash-side {
+  width: 336px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable; /* 同上：滚动条出现与否不影响自身内容宽度 */
+  padding: 28px 24px 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 热搜卡片占满剩余高度：列表随窗口高度显示 5-10 条（上限 10 行），内部滚动 */
+/* 卡片 overflow:hidden 使自动最小尺寸失效，需显式 min-height 托底（标题栏+切换栏+5 行列表） */
+.dash-side .hs-card {
+  flex: 1 1 0;
+  min-height: 267px;
+  max-height: 445px; /* 上限 = 标题栏 + 切换栏 + 10 行列表 */
+}
+
+.dash-side .hs-list {
+  flex: 1 1 auto;
+  min-height: 180px; /* 下限 ≈ 5 行，空间过小时由侧栏整体滚动兜底 */
+  max-height: none;
+}
+
+/* 便签卡片（今日便签 / 长期待办事项）：优先保证完整可见，空间不足时内部列表滚动（220-300px 自适应） */
+.dash-side-note { flex: 0 1 300px; min-height: 220px; }
+.dash-side-note .dn-card { width: 100%; height: 100%; }
+
+.dash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+}
+
+/* ---------- 欢迎标题（左标题 + 右新增入口） ---------- */
+.dash-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.dash-header-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dash-hello {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-1);
+}
+
+.dash-sub {
+  font-size: 14px;
+  color: var(--text-3);
+}
+
+/* ---------- 柱状图卡片 ---------- */
+.dash-chart-card {
+  height: 260px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+}
+
+.dash-chart {
+  height: 100%;
+}
+
+.dash-chart-row {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.dash-chart-empty {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.dash-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.dash-bar-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.dash-bar {
+  border-radius: 6px;
+}
+
+.dash-bar-label {
+  font-size: 11px;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* ---------- 空图表态 ---------- */
+.dash-empty-chart {
+  width: 100%;
+  padding: 48px 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.dash-empty-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--text-4);
+}
+
+.dash-empty-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+.dash-empty-sub {
+  font-size: 12px;
+  color: var(--text-4);
+}
+
+/* ---------- 首页快捷卡片网格 ---------- */
+.dash-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.dash-cards-grid:empty { display: none; }
+
+/* 空态：整个虚线区域即添加入口（button，可键盘聚焦） */
+.dash-cards-empty {
+  grid-column: 1 / -1;
+  padding: 14px 16px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  color: var(--text-4);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+
+.dash-cards-empty:hover {
+  border-color: var(--card-border);
+  color: var(--primary);
+  background: var(--surface-2);
+}
+
+.dash-cards-empty:focus-visible {
+  outline: 2px solid var(--card-border);
+  outline-offset: 2px;
+}
+
+/* 已有卡片时网格末尾的虚线添加入口 */
+.dash-cards-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 96px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  background: transparent;
+  font: inherit;
+  color: var(--text-4);
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background .15s ease,
+    transform .15s ease;
+}
+
+.dash-cards-add .icon { width: 16px; height: 16px; }
+
+.dash-cards-add-text { font-size: 12px; }
+
+.dash-cards-add:hover {
+  border-color: var(--card-border);
+  color: var(--primary);
+  background: var(--surface-2);
+  transform: translateY(-2px);
+}
+
+.dash-cards-add:focus-visible {
+  outline: 2px solid var(--card-border);
+  outline-offset: 2px;
+}
+
+.dash-home-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+.dash-home-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--card-border);
+  box-shadow: 0 6px 16px rgba(255, 122, 71, .14);
+}
+
+.dash-home-card-title {
+  max-width: 100%;
+  font-size: 12px;
+  color: var(--text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-home-card-del {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .12s ease, background .12s ease, color .12s ease;
+}
+
+.dash-home-card:hover .dash-home-card-del { opacity: 1; }
+
+.dash-home-card-del:hover { background: var(--danger-bg); color: var(--red); }
+
+.dash-home-card-del .icon { width: 9px; height: 9px; }
+
+/* ---------- 卡片选择器弹窗（左侧菜单导航 + 右侧卡片列表） ---------- */
+.dash-picker-modal {
+  width: 660px;
+  max-width: 92vw;
+  height: min(620px, 86vh);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px 16px;
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: var(--shadow-pop);
+  animation: modal-in .18s ease-out;
+  overflow: hidden;
+}
+
+.dash-picker-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.dash-picker-head-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.dash-picker-status {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.dash-picker-status b { color: var(--green); font-weight: 600; }
+
+.dash-picker-sub {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+}
+
+.dash-picker-main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 12px;
+}
+
+/* 左侧菜单分类导航 */
+.dash-picker-nav {
+  width: 152px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-right: 10px;
+  border-right: 1px solid var(--line);
+}
+
+.dash-picker-nav-loading {
+  padding: 12px 10px;
+  font-size: 12px;
+  color: var(--text-4);
+}
+
+.dash-picker-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-align: left;
+  transition: background .12s ease, color .12s ease;
+}
+
+.dash-picker-nav-item .icon { width: 14px; height: 14px; opacity: .65; flex-shrink: 0; }
+.dash-picker-nav-item:hover { background: var(--surface-2); }
+.dash-picker-nav-item.active {
+  background: rgba(255,122,71,.13);
+  color: var(--primary-deep);
+  font-weight: 600;
+}
+
+.dash-picker-nav-title {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-picker-nav-count {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-4);
+  background: var(--surface-2);
+  border-radius: 99px;
+  padding: 1px 7px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.dash-picker-nav-item.active .dash-picker-nav-count {
+  background: rgba(255,122,71,.2);
+  color: var(--primary-deep);
+}
+
+.dash-picker-nav-count.zero { opacity: .55; }
+
+/* 右侧卡片列表 */
+.dash-picker-list {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* 分组标题吸顶 */
+.dash-picker-group {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface);
+  padding: 8px 6px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+
+.dash-picker-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background .12s ease;
+}
+
+.dash-picker-item:hover { background: var(--surface-2); }
+
+.dash-picker-item:focus {
+  outline: none;
+  background: var(--surface-2);
+  box-shadow: 0 0 0 2px rgba(255,122,71,.35);
+}
+
+.dash-picker-item.added { background: rgba(51,179,140,.07); }
+.dash-picker-item.added:hover { background: rgba(51,179,140,.13); }
+
+.dash-picker-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.dash-picker-item-title {
+  font-size: 13px;
+  color: var(--text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-picker-item-url {
+  font-size: 11px;
+  color: var(--text-4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 搜索命中高亮 */
+.dash-picker-hl {
+  background: rgba(245,140,82,.3);
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 1px;
+}
+
+/* 添加按钮（悬停行 / 键盘聚焦时显现） */
+.dash-picker-add {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(255,122,71,.1);
+  padding: 4px 10px;
+  border-radius: 99px;
+  opacity: 0;
+  transition: opacity .12s ease, background .12s ease, color .12s ease;
+}
+
+.dash-picker-item:hover .dash-picker-add,
+.dash-picker-item:focus .dash-picker-add { opacity: 1; }
+.dash-picker-add:hover { background: var(--primary); color: var(--on-primary); }
+
+/* 已添加按钮：悬停变红色移除提示 */
+.dash-picker-added {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+  background: rgba(51,179,140,.1);
+  padding: 4px 10px;
+  border-radius: 99px;
+  transition: background .12s ease, color .12s ease;
+}
+
+.dash-picker-added:hover { background: var(--danger-bg); color: var(--red); }
+
+/* 加载状态（横排）/ 空状态（.empty 纵排） */
+.dash-picker-state {
+  padding: 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.dash-picker-state.empty {
+  flex-direction: column;
+  gap: 10px;
+  padding: 48px 0;
+}
+
+/* 底部操作条：快捷键提示 + 关闭 */
+.dash-picker-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  flex-shrink: 0;
+}
+
+.dash-picker-kbd-tips { font-size: 11px; color: var(--text-4); }
+
+.dash-picker-kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-family: inherit;
+  color: var(--text-3);
+  background: var(--surface);
+  margin: 0 1px;
+}
+
+/* 窄窗口隐藏左侧导航，保证列表可用 */
+@media (max-width: 640px) {
+  .dash-picker-nav { display: none; }
+}
+
+/* ---------- 今日一言（吸附底部） ---------- */
+.dash-quote-bar {
+  padding: 0 32px 16px;
+  display: flex;
+}
+
+.dash-quote-inner {
+  margin: 0 auto;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.dash-quote-text {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.dash-quote-src {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+.dash-quote-loading { color: var(--text-3); }
+
+/* ---------- 响应式：侧栏随窗口收敛 ---------- */
+@media (max-width: 1240px) {
+  .dash-side { width: 292px; }
+}
+
+/* 窄窗口：侧栏并入主内容下方，便签与热搜并排一行（高度固定，列表恒为 10 行内滚动） */
+@media (max-width: 1060px) {
+  .dash-body { flex-direction: column; overflow-y: auto; overflow-x: hidden; scrollbar-gutter: stable; }
+  .dash-scroll { flex: none; overflow: visible; padding-right: 32px; }
+  .dash-side {
+    flex: none;
+    width: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 0 32px 32px;
+    overflow: visible;
+  }
+  .dash-side-note { order: -1; width: 220px; flex: 0 0 auto; min-height: 0; }
+  .dash-side-note .dn-card { width: 220px; height: 300px; }
+  .dash-side .hs-card { flex: 1 1 auto; min-width: 0; max-height: none; }
+  .dash-side .hs-list { min-height: 0; max-height: 352px; }
+}

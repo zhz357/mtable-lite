@@ -1,0 +1,178 @@
+/* wallpaper.css — 内容区壁纸与玻璃卡片
+   全部样式收敛在 body.wp-on 作用域下：壁纸关闭（默认态）时对现有 UI 零影响 */
+
+/* ---------- 壁纸背景层 ----------
+   由 MainView 插入 .main-content 最底层（.main-content 为 overflow:hidden 的
+   定位容器，壁纸层不随 menu-layer 内部滚动）；主体内容通过 z-index 抬升。
+   scale(1.06) 让 blur>0 时边缘不露白（放大部分被容器裁掉）。 */
+.wp-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: none;
+  will-change: filter;
+}
+body.wp-on .wp-layer { display: block; transform: scale(1.06); }
+
+/* ---------- 内容区透明化 ----------
+   .main-content / menu-layer / browser-layer 的实色背景让位给壁纸 */
+body.wp-on .main-content { background: transparent; }
+body.wp-on .menu-layer,
+body.wp-on .browser-layer { background: transparent; }
+
+/* 视图根容器（仪表盘/卡片页/插件市场/学习路线/倒计时）铺轻雾面：
+   让位壁纸的同时给卡片外文本兜底底色——无论壁纸亮暗，
+   根容器文字始终落在接近主题底色的雾面上，避免深色字融入暗壁纸 */
+body.wp-on .menu-layer :is(.dash-root, .cards-root, .mk-page, .roadmap-root, .cd-root, .qt-root) {
+  background: rgba(245, 246, 252, .38);
+}
+html[data-theme="dark"] body.wp-on .menu-layer :is(.dash-root, .cards-root, .mk-page, .roadmap-root, .cd-root, .qt-root) {
+  background: rgba(16, 20, 28, .46);
+}
+
+/* 倒计时插件自持一套主题变量（暗黑态为硬编码实色），
+   铺壁纸时统一映射为玻璃色，与其它视图保持一致 */
+body.wp-on .menu-layer .cd-root { --cd-bg: transparent; }
+html[data-theme="dark"] body.wp-on .menu-layer .cd-root { --cd-card: rgba(26, 31, 42, .76); }
+
+/* 主体内容抬升到壁纸之上（view-host 自身已 relative，补 z-index 即可） */
+body.wp-on .view-host,
+body.wp-on .browser-switchbar { z-index: 1; }
+
+/* ---------- 玻璃卡片与可读性 ----------
+   通过覆写 .main-content 作用域内的表面变量，让内容区里所有用
+   var(--surface) 的面板/卡片/输入框自动变为半透明毛玻璃观感；
+   侧边栏与顶栏在 .main-content 之外，不受影响（保持实色）。
+   面板不透明度较默认略升（.80/.62），压低壁纸透出比例，
+   避免文字与高纹理壁纸区域混融。 */
+body.wp-on .main-content {
+  --surface: rgba(255, 255, 255, .80);
+  --surface-2: rgba(255, 255, 255, .62);
+}
+html[data-theme="dark"] body.wp-on .main-content {
+  --surface: rgba(26, 31, 42, .82);
+  --surface-2: rgba(36, 43, 56, .64);
+}
+
+/* ---------- 文字层级（wp-on 专用，保证对比度） ----------
+   玻璃底在亮/暗壁纸下均介于纯白与主题底色之间，默认文字色在最坏
+   情况（玻璃被深色壁纸透底）下不达标；此处浅色主题整体加深、
+   暗色主题整体提亮，按 WCAG AA（普通文本 ≥ 4.5:1）取色：
+   浅色：text-1 #1f2637 / text-2 #454f68 / text-3 #59627d
+   暗色：text-1 #f4f7fd / text-2 #ccd3e4 / text-3 #aeb7cc */
+body.wp-on .main-content {
+  --text-1: #1f2637;
+  --text-2: #454f68;
+  --text-3: #59627d;
+  --text-4: #6a7391;
+  --line: rgba(41, 51, 82, .18);
+}
+html[data-theme="dark"] body.wp-on .main-content {
+  --text-1: #f4f7fd;
+  --text-2: #ccd3e4;
+  --text-3: #aeb7cc;
+  --text-4: #97a1b8;
+  --line: rgba(231, 235, 244, .20);
+}
+
+/* ---------- 设置页·壁纸分区 ---------- */
+.wp-layout { display: flex; gap: 20px; align-items: stretch; }
+
+.wp-preview-wrap {
+  flex: 1.2; min-width: 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.wp-preview {
+  position: relative;
+  width: 100%; aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface-2) center / cover no-repeat;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.wp-preview.empty { background: var(--surface-2); }
+.wp-preview-empty { font-size: 12px; color: var(--text-3); }
+.wp-preview-caption { font-size: 11px; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.wp-controls {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.wp-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.wp-row-label { font-size: 13px; font-weight: 500; color: var(--text-1); }
+.wp-row-value { font-size: 12px; color: var(--text-3); min-width: 44px; text-align: right; }
+
+/* 开关 */
+.wp-switch {
+  position: relative; width: 40px; height: 22px; border-radius: 11px;
+  background: var(--surface-3); border: 1px solid var(--line);
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.wp-switch::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+  transition: transform .2s;
+}
+.wp-switch.on { background: var(--primary); border-color: var(--primary); }
+.wp-switch.on::after { transform: translateX(18px); }
+
+/* 滑杆 */
+.wp-slider-row { display: flex; flex-direction: column; gap: 4px; }
+.wp-slider { width: 100%; accent-color: var(--primary); cursor: pointer; }
+
+/* 模式按钮 */
+.wp-mode-btn {
+  padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 500;
+  background: var(--surface-2); border: 1px solid var(--line); color: var(--text-1);
+  transition: background .15s, color .15s, border-color .15s;
+}
+.wp-mode-btn:hover { background: var(--surface-3); }
+.wp-mode-btn.active { background: var(--primary-grad); border-color: transparent; color: var(--on-primary); }
+
+.wp-hint { font-size: 11px; color: var(--text-3); }
+
+/* 壁纸图库（来源筛选 + 缩略图） */
+.wp-gallery-head { font-size: 13px; font-weight: 500; color: var(--text-1); margin: 16px 0 8px; }
+.wp-source-chips { display: flex; gap: 6px; }
+.wp-chips-row { display: flex; justify-content: space-between; align-items: center; margin: 0 0 8px; }
+.wp-chip.wp-fetch {
+  background: var(--primary-grad); border-color: transparent; color: var(--on-primary);
+}
+.wp-chip.wp-fetch:hover { filter: brightness(1.05); }
+.wp-chip.wp-fetch:disabled { opacity: .6; cursor: default; }
+.wp-chip {
+  padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 500;
+  background: var(--surface-2); border: 1px solid var(--line); color: var(--text-2);
+  cursor: pointer; transition: background .15s, color .15s, border-color .15s;
+}
+.wp-chip:hover { background: var(--surface-3); }
+.wp-chip.active { background: var(--primary-grad); border-color: transparent; color: var(--on-primary); }
+.wp-gallery {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px;
+}
+.wp-thumb {
+  position: relative; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden;
+  border: 2px solid transparent; background: var(--surface-2) center / cover no-repeat;
+  cursor: pointer; transition: transform .15s, border-color .15s;
+  padding: 0;
+}
+.wp-thumb:hover { transform: translateY(-2px); }
+.wp-thumb.active { border-color: var(--primary); }
+.wp-thumb-date {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 2px 5px; font-size: 10px; color: #fff;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .55));
+  text-align: left;
+}
+.wp-thumb-pinned {
+  position: absolute; top: 4px; right: 4px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--primary); color: #fff;
+  font-size: 10px; line-height: 16px; text-align: center;
+}

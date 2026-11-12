@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 600" width="1050" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFAF5"/>
+      <stop offset="1" stop-color="#F6E3D1"/>
+    </linearGradient>
+    <linearGradient id="front" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#FFA66B"/>
+      <stop offset="0.52" stop-color="#FF7A47"/>
+      <stop offset="1" stop-color="#E85A2C"/>
+    </linearGradient>
+    <path id="m" d="M 13 86 L 13 14 L 34 14 L 50 48 L 66 14 L 87 14 L 87 86 L 70 86 L 70 44 L 55 74 L 45 74 L 30 44 L 30 86 Z"/>
+  </defs>
+  <rect width="1050" height="600" rx="22" fill="url(#bg)"/>
+  <circle cx="1010" cy="-10" r="330" fill="#FF7A47" opacity="0.08"/>
+  <circle cx="880" cy="660" r="240" fill="#FF7A47" opacity="0.06"/>
+  <g transform="translate(70 52) scale(1.62)">
+    <g fill="#B4491F">
+      <use href="#m" x="0.5" y="0.56"/><use href="#m" x="1" y="1.12"/><use href="#m" x="1.5" y="1.68"/>
+      <use href="#m" x="2" y="2.24"/><use href="#m" x="2.5" y="2.8"/><use href="#m" x="3" y="3.36"/>
+      <use href="#m" x="3.5" y="3.92"/><use href="#m" x="4" y="4.48"/><use href="#m" x="4.5" y="5.04"/>
+      <use href="#m" x="5" y="5.6"/><use href="#m" x="5.5" y="6.16"/><use href="#m" x="6" y="6.72"/>
+    </g>
+    <use href="#m" fill="url(#front)"/>
+    <use href="#m" fill="none" stroke="#FFFFFF" stroke-opacity="0.42" stroke-width="0.7"/>
+  </g>
+  <text x="268" y="140" font-family="Inter, 'SF Pro Display', 'PingFang SC', Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-2" fill="#3A2A22">M<tspan font-weight="500" fill="#93715C">Table</tspan></text>
+  <text x="272" y="188" font-family="Inter, 'PingFang SC', Arial, sans-serif" font-size="24" letter-spacing="6" fill="#B3907B">SMART  TABLE  ·  DESKTOP</text>
+  <rect x="70" y="336" width="910" height="1.5" fill="#FF7A47" opacity="0.26"/>
+  <text x="70" y="428" font-family="Inter, 'PingFang SC', Arial, sans-serif" font-size="42" font-weight="700" fill="#3A2A22">张 明</text>
+  <text x="70" y="472" font-family="Inter, 'PingFang SC', Arial, sans-serif" font-size="24" fill="#9A7761">产品负责人 / Product Lead</text>
+  <text x="980" y="418" text-anchor="end" font-family="Inter, 'PingFang SC', Arial, sans-serif" font-size="25" fill="#6B4732">hello@mtable.app</text>
+  <text x="980" y="458" text-anchor="end" font-family="Inter, 'PingFang SC', Arial, sans-serif" font-size="25" fill="#6B4732">www.mtable.app</text>
+  <text x="980" y="498" text-anchor="end" font-family="Inter, 'PingFang SC', Arial, sans-serif" font-size="25" fill="#6B4732">+86 138 0000 0000</text>
+</svg>

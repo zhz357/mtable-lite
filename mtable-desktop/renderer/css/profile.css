@@ -1,0 +1,139 @@
+/* profile.css — 个人信息编辑弹窗 */
+
+.profile-modal {
+  width: 420px; max-width: 92vw;
+  max-height: 88vh;
+  background: var(--surface); border-radius: 16px; box-shadow: var(--shadow-pop);
+  padding: 0;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  animation: modal-in .18s ease-out;
+}
+
+/* ---------- 头部 ---------- */
+.profile-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--surface-2);
+  flex-shrink: 0;
+}
+.profile-head-texts { display: flex; flex-direction: column; gap: 4px; }
+.profile-modal-title { font-size: 17px; font-weight: 600; color: var(--text-1); margin: 0; }
+.profile-head-sub { font-size: 12px; color: var(--text-3); }
+.profile-close {
+  width: 44px; height: 44px; flex-shrink: 0;
+  margin: -8px -12px 0 0; /* 视觉保持 30px，热区扩到 44px */
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 10px; color: var(--text-3); background: transparent;
+  transition: background .16s, color .16s;
+}
+.profile-close:hover { background: var(--surface-2); color: var(--text-1); }
+.profile-close:active { background: var(--surface-3); }
+.profile-close:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+
+/* ---------- 滚动区 ---------- */
+.profile-scroll {
+  flex: 1; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 18px;
+  padding: 20px 24px;
+}
+
+/* ---------- 头像 ---------- */
+.profile-avatar-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px; background: var(--surface); border: 1px solid var(--surface-2); border-radius: 12px;
+}
+.profile-avatar-ring {
+  width: 80px; height: 80px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 4px var(--surface-2), 0 4px 10px rgba(31, 41, 74, .08);
+}
+.profile-avatar-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.profile-avatar-label { font-size: 13px; font-weight: 600; color: var(--text-1); }
+.profile-avatar-btns { display: flex; align-items: center; gap: 14px; }
+.profile-avatar-hint { font-size: 11px; color: var(--text-4); }
+
+.profile-pick-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 18px;
+  font-size: 13px; font-weight: 500; color: var(--on-primary);
+  border-radius: 10px;
+  background: var(--primary);
+  transition: opacity .16s, transform .1s;
+}
+.profile-pick-btn:hover { opacity: .9; }
+.profile-pick-btn:active { transform: scale(.98); }
+.profile-remove-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; min-width: 44px; padding: 0 8px;
+  font-size: 12px; color: var(--red); border-radius: 8px;
+  transition: background .16s;
+}
+.profile-remove-btn:hover { background: var(--danger-bg); }
+.profile-remove-btn:active { background: var(--danger-bg); }
+
+/* ---------- 字段 ---------- */
+.profile-field { display: flex; flex-direction: column; gap: 8px; }
+.profile-input { font-size: 13px; min-height: 44px; box-sizing: border-box; }
+textarea.profile-input { resize: vertical; min-height: 72px; line-height: 1.6; }
+/* 校验失败态：红色描边 + 浅红底，提供明确的容错提示 */
+.profile-input.invalid {
+  border-color: var(--red);
+  background: var(--danger-bg);
+  box-shadow: 0 0 0 3px rgba(232, 79, 79, .1);
+}
+
+.profile-divider { height: 1px; background: var(--line); margin: 2px 0; }
+
+/* ---------- 修改密码折叠区 ---------- */
+.profile-pwd-section { display: flex; flex-direction: column; gap: 12px; }
+.profile-pwd-toggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  align-self: flex-start;
+  min-height: 44px; padding: 0 10px; margin-left: -10px;
+  font-size: 13px; font-weight: 500; color: var(--text-2);
+  border-radius: 8px;
+  transition: color .16s, background .16s;
+}
+.profile-pwd-toggle:hover { color: var(--primary); background: var(--surface-2); }
+.profile-pwd-toggle:active { background: var(--surface-3); }
+.profile-pwd-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.profile-pwd-fields { display: flex; flex-direction: column; gap: 12px; padding-left: 2px; }
+
+/* ---------- 提示 ---------- */
+.profile-msg {
+  display: flex; align-items: center; gap: 6px;
+  margin: 0 24px; padding: 10px 12px;
+  font-size: 12px; line-height: 1.4;
+  border-radius: 10px;
+}
+.profile-msg.error { color: var(--red); background: var(--danger-bg); }
+.profile-msg.success { color: #2b9b5e; background: #edf9f2; }
+.profile-msg:empty, .profile-msg[style*="display: none"] { display: none; }
+
+/* ---------- 底部按钮 ---------- */
+.profile-actions {
+  display: flex; justify-content: flex-end; gap: 12px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--surface-2);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.profile-btn-cancel {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; min-width: 88px; padding: 0 22px; border-radius: 10px;
+  background: var(--surface-2); color: var(--text-1); font-size: 13px; font-weight: 500;
+  transition: background .16s, transform .1s;
+}
+.profile-btn-cancel:hover { background: var(--surface-3); }
+.profile-btn-cancel:active { transform: scale(.98); }
+.profile-btn-cancel:disabled { opacity: .6; cursor: default; transform: none; }
+.profile-btn-save {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-width: 88px; min-height: 44px;
+  padding: 0 22px; border-radius: 10px;
+  background: var(--primary); color: var(--on-primary); font-size: 13px; font-weight: 500;
+  transition: opacity .16s, transform .1s;
+}
+.profile-btn-save:hover { opacity: .92; }
+.profile-btn-save:active { transform: scale(.98); }
+.profile-btn-save:disabled { background: var(--text-4); cursor: default; opacity: 1; transform: none; }

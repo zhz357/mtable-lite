@@ -1,0 +1,140 @@
+/* feedback.css — 问题反馈弹窗（提交反馈 + 反馈历史） */
+
+.fb-modal {
+  width: 520px; max-width: 92vw; max-height: 82vh;
+  display: flex; flex-direction: column;
+  background: var(--surface); border-radius: 16px; box-shadow: var(--shadow-pop);
+  padding: 20px 22px;
+  animation: modal-in .18s ease-out;
+}
+
+.fb-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.fb-modal-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 16px; font-weight: 600; color: var(--text-1);
+}
+.fb-modal-title .icon { width: 17px; height: 17px; color: var(--primary); }
+.fb-modal-close {
+  display: flex; padding: 6px; border-radius: 8px; color: var(--text-3);
+}
+.fb-modal-close:hover { background: var(--surface-2); color: var(--text-1); }
+.fb-modal-close .icon { width: 12px; height: 12px; }
+
+/* ---------- 标签页 ---------- */
+.fb-tabs {
+  display: flex; gap: 4px; padding: 3px;
+  background: var(--surface-2); border-radius: 10px; margin-bottom: 14px;
+}
+.fb-tab {
+  flex: 1; padding: 7px 0; border-radius: 8px;
+  font-size: 13px; font-weight: 500; color: var(--text-2);
+  transition: background .15s, color .15s;
+}
+.fb-tab:hover { color: var(--text-1); }
+.fb-tab.active {
+  background: var(--surface); color: var(--primary); font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+}
+
+/* ---------- 表单 ---------- */
+.fb-pane { display: flex; flex-direction: column; gap: 12px; overflow: auto; }
+.fb-field { display: flex; flex-direction: column; }
+.fb-field-row { display: flex; gap: 12px; }
+.fb-field-row .fb-field { flex: 1; min-width: 0; }
+.fb-input { font-size: 13px; padding: 9px 12px; }
+.fb-textarea {
+  font-size: 13px; padding: 9px 12px; line-height: 1.6; resize: vertical;
+  min-height: 92px; max-height: 180px;
+}
+.fb-textarea-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 4px;
+}
+.fb-hint { font-size: 11px; color: var(--text-3); }
+.fb-char-count { font-size: 11px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+
+/* 问题类型 chip 单选 */
+.fb-type-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+.fb-type-chip {
+  padding: 7px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 500; color: var(--text-2);
+  background: var(--surface-2); border: 1px solid transparent;
+  transition: all .15s;
+}
+.fb-type-chip:hover { color: var(--primary); border-color: rgba(255, 122, 71, .4); }
+.fb-type-chip.active {
+  background: rgba(255, 122, 71, .12); color: var(--primary);
+  border-color: var(--primary); font-weight: 600;
+}
+
+/* 提示信息 */
+.fb-msg {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500;
+}
+.fb-msg.error { color: var(--red); }
+.fb-msg.success { color: var(--green); }
+
+.fb-actions { display: flex; justify-content: flex-end; }
+.fb-submit-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-width: 108px; padding: 9px 22px; border-radius: 10px;
+  font-size: 13px; font-weight: 600; color: var(--on-primary);
+  background: var(--primary-grad);
+  box-shadow: 0 4px 8px rgba(232, 90, 44, .28);
+  transition: opacity .15s, transform .1s;
+}
+.fb-submit-btn:hover { opacity: .92; }
+.fb-submit-btn:active { transform: scale(.98); }
+.fb-submit-btn:disabled { opacity: .6; cursor: default; }
+.fb-submit-btn .spinner { width: 13px; height: 13px; }
+
+/* ---------- 反馈历史 ---------- */
+.fb-history-head-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.fb-history-refresh {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500; color: var(--primary);
+  padding: 5px 10px; border-radius: 8px;
+}
+.fb-history-refresh:hover { background: rgba(255, 122, 71, .1); }
+.fb-history-refresh .icon { width: 11px; height: 11px; }
+
+.fb-history-list {
+  display: flex; flex-direction: column; gap: 8px;
+  min-height: 180px; max-height: 46vh; overflow: auto;
+  padding-right: 2px;
+}
+.fb-history-loading, .fb-history-empty {
+  flex: 1; min-height: 180px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; color: var(--text-3); font-size: 13px; text-align: center;
+}
+.fb-history-empty .icon-lg { width: 40px; height: 40px; color: var(--purple); opacity: .8; }
+.fb-history-empty .title { font-size: 15px; font-weight: 600; color: var(--text-2); }
+
+.fb-history-item {
+  padding: 10px 12px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--line);
+}
+.fb-history-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.fb-history-time { margin-left: auto; font-size: 11px; color: var(--text-3); }
+.fb-history-content {
+  font-size: 12px; color: var(--text-1); line-height: 1.6;
+  white-space: pre-wrap; word-break: break-word;
+  user-select: text;
+}
+
+.fb-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 5px;
+  font-size: 10px; font-weight: 600; line-height: 1.5;
+}
+.fb-badge.type { background: rgba(242, 145, 63, .12); color: var(--purple); }
+.fb-badge.status.pending { background: rgba(245, 140, 82, .14); color: var(--orange); }
+.fb-badge.status.done { background: rgba(51, 179, 140, .14); color: var(--green); }

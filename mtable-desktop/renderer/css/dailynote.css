@@ -1,0 +1,435 @@
+/* dailynote.css — 今日便签卡片（移植自 DailyNoteView.swift，220×300） */
+
+.dn-card {
+  width: 220px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line); /* Color(0.88, 0.90, 0.94) */
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  text-align: left;
+}
+
+/* ---------- 标题栏 ---------- */
+.dn-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  flex-shrink: 0;
+}
+.dn-header > .icon {
+  width: 14px;
+  height: 14px;
+  color: var(--primary); /* Color(0.40, 0.55, 0.96) */
+}
+.dn-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1); /* Color(0.16, 0.20, 0.32) */
+}
+.dn-count {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3); /* Color(0.55, 0.58, 0.68) */
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--surface-2); /* Color(0.94, 0.95, 0.98) */
+}
+
+/* 历史入口（标题栏右侧） */
+.dn-history {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  color: var(--text-3);
+  transition: background 0.15s, color 0.15s;
+}
+.dn-history .icon {
+  width: 12px;
+  height: 12px;
+}
+.dn-history:hover {
+  background: var(--surface-2);
+  color: var(--primary);
+}
+
+/* ---------- 分割线 ---------- */
+.dn-divider {
+  height: 1px;
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+/* ---------- 便签列表 ---------- */
+.dn-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.dn-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+}
+.dn-row + .dn-row {
+  border-top: 1px solid var(--line); /* Color(0.92, 0.93, 0.96) */
+}
+
+/* 完成勾选（28×28 命中区域 + 18×18 方形复选框，勾选后显示 ✅） */
+.dn-check {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dn-check-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid var(--card-border); /* Color(0.78, 0.80, 0.86) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+}
+.dn-check-mark {
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.dn-row.done .dn-check-box {
+  background: rgba(51, 179, 140, 0.12);
+  border-color: #33b38c;
+}
+.dn-row.done .dn-check-mark {
+  opacity: 1;
+}
+
+/* 便签内容（最多 2 行） */
+.dn-content {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-1);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.dn-row.done .dn-content {
+  color: var(--text-4); /* Color(0.65, 0.68, 0.78) */
+}
+
+/* 编辑 / 删除按钮（hover 行时显示） */
+.dn-edit,
+.dn-delete {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-4); /* Color(0.72, 0.74, 0.80) */
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.dn-edit .icon,
+.dn-delete .icon {
+  width: 10px;
+  height: 10px;
+}
+.dn-row:hover .dn-edit,
+.dn-row:hover .dn-delete {
+  opacity: 1;
+}
+.dn-edit:hover {
+  color: var(--primary);
+}
+.dn-delete:hover {
+  color: var(--red);
+}
+
+/* ---------- 输入栏 ---------- */
+.dn-inputbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+.dn-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--text-1);
+}
+.dn-input::placeholder {
+  color: var(--text-4);
+}
+.dn-add {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--text-4); /* 无输入时置灰 */
+  transition: color 0.15s;
+}
+.dn-add .icon {
+  width: 20px;
+  height: 20px;
+}
+.dn-add.active {
+  color: var(--primary);
+}
+.dn-add:disabled {
+  cursor: default;
+}
+
+/* ---------- 空状态 ---------- */
+.dn-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 0;
+  text-align: center;
+}
+.dn-empty .icon {
+  width: 28px;
+  height: 28px;
+  color: var(--text-4);
+}
+.dn-empty-title {
+  font-size: 12px;
+  color: var(--text-4);
+}
+.dn-empty-sub {
+  font-size: 11px;
+  color: var(--text-4);
+}
+
+/* ---------- 历史弹窗 ---------- */
+.dn-his-modal {
+  width: 520px;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 96px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  text-align: left;
+}
+.dn-his-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--line);
+}
+.dn-his-head > .icon {
+  width: 15px;
+  height: 15px;
+  color: var(--primary);
+}
+.dn-his-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+.dn-his-status {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-3);
+}
+.dn-his-status b {
+  color: var(--primary);
+  font-weight: 600;
+}
+.dn-his-close {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--text-4);
+  transition: background 0.15s, color 0.15s;
+}
+.dn-his-close .icon {
+  width: 11px;
+  height: 11px;
+}
+.dn-his-close:hover {
+  background: var(--surface-2);
+  color: var(--text-1);
+}
+
+/* 筛选栏：时间预设 chips + 自定义起止日期 */
+.dn-his-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 18px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.dn-his-chips {
+  display: flex;
+  gap: 8px;
+}
+.dn-his-chip {
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--text-3);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: all 0.15s;
+}
+.dn-his-chip:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.dn-his-chip.active {
+  color: var(--on-primary);
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.dn-his-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dn-his-date {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 12px;
+  color: var(--text-1);
+  outline: none;
+}
+.dn-his-date:focus {
+  border-color: var(--primary);
+}
+.dn-his-dash {
+  font-size: 12px;
+  color: var(--text-4);
+  flex-shrink: 0;
+}
+
+/* 历史列表 */
+.dn-his-list {
+  flex: 1;
+  min-height: 160px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+.dn-his-group {
+  position: sticky;
+  top: 0;
+  padding: 6px 18px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.dn-his-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 18px;
+}
+.dn-his-row + .dn-his-row {
+  border-top: 1px solid var(--line);
+}
+.dn-his-status-icon {
+  flex-shrink: 0;
+  display: flex;
+  margin-top: 1px;
+}
+.dn-his-status-icon .icon {
+  width: 15px;
+  height: 15px;
+  color: var(--text-4);
+}
+.dn-his-row.done .dn-his-status-icon .icon {
+  color: var(--green, #33b38c);
+}
+.dn-his-main {
+  flex: 1;
+  min-width: 0;
+}
+.dn-his-content {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-1);
+  word-break: break-all;
+}
+.dn-his-row.done .dn-his-content {
+  color: var(--text-4);
+  text-decoration: line-through;
+}
+.dn-his-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--text-4);
+}
+.dn-his-dot {
+  color: var(--text-4);
+}
+.dn-his-tag {
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  color: var(--orange, #f2b134);
+  background: rgba(242, 177, 52, 0.12);
+}
+.dn-his-tag.done {
+  color: #33b38c;
+  background: rgba(51, 179, 140, 0.12);
+}
+.dn-his-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 0;
+  font-size: 12px;
+  color: var(--text-4);
+}
+.dn-his-state.empty {
+  flex-direction: column;
+  gap: 10px;
+}
+.dn-his-state.empty .icon {
+  width: 28px;
+  height: 28px;
+  color: var(--text-4);
+}

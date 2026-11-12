@@ -1,0 +1,105 @@
+/* weather.css — 天气组件（移植自 WeatherView.swift，顶栏内嵌小胶囊） */
+
+.weather-chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line); /* Color(0.85, 0.87, 0.92) */
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* 数据态：padding 10h / 6v */
+.weather-chip-data {
+  padding: 6px 10px;
+}
+
+/* 加载中 / 占位态：padding 12h / 8v */
+.weather-chip-mini {
+  padding: 8px 12px;
+  gap: 6px;
+}
+.weather-chip-tappable {
+  cursor: pointer;
+}
+
+/* ---------- 数据态布局 ---------- */
+.weather-icon-wrap {
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.weather-icon-wrap .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.weather-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 8px;
+  min-width: 0;
+}
+.weather-city {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-1); /* Color(0.16, 0.20, 0.32) */
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.weather-desc {
+  font-size: 10px;
+  color: var(--text-3); /* Color(0.55, 0.58, 0.68) */
+}
+
+.weather-divider {
+  width: 1px;
+  height: 28px;
+  margin: 0 10px;
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+.weather-temps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.weather-temp-now {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-1);
+}
+.weather-temp-range {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+}
+.weather-temp-min {
+  font-weight: 500;
+  color: #66a6f2; /* Color(0.40, 0.65, 0.95) */
+}
+.weather-temp-sep {
+  color: var(--text-4); /* Color(0.65, 0.68, 0.78) */
+}
+.weather-temp-max {
+  font-weight: 500;
+  color: #f2734d; /* Color(0.95, 0.45, 0.30) */
+}
+
+/* ---------- 加载中 / 占位态 ---------- */
+.weather-status {
+  font-size: 11px;
+  color: var(--text-3);
+}
+.weather-status-icon {
+  width: 13px;
+  height: 13px;
+  color: var(--text-3);
+}
