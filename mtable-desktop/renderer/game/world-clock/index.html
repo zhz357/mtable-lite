@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>世界时钟</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><span class="brand-icon">🌍</span>世界时钟</div>
+    <div class="search-wrap">
+      <input id="searchInput" type="text" placeholder="搜索城市 / 国家 / 时区，点击可浏览全部内置城市" autocomplete="off" spellcheck="false">
+      <div class="search-pop hidden" id="searchPop"></div>
+    </div>
+    <div class="tools">
+      <button class="tool" id="fmtBtn" title="切换 12 / 24 小时制">24h</button>
+      <button class="tool" id="themeBtn" title="切换主题：跟随系统 / 浅色 / 深色">🌗</button>
+      <div class="accents" id="accents" title="主题配色">
+        <button class="accent" data-accent="indigo" style="--a:#4d7ef0"></button>
+        <button class="accent" data-accent="ocean" style="--a:#0ea5b7"></button>
+        <button class="accent" data-accent="sunset" style="--a:#f0793d"></button>
+        <button class="accent" data-accent="forest" style="--a:#2fa46a"></button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="hero-sky" id="heroSky"></div>
+    <div class="hero-clock">
+      <div class="hero-time" id="localTime">--:--:--</div>
+      <div class="hero-date" id="localDate">--</div>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-city" id="localCity">本地时间</div>
+      <div class="hero-zone" id="localZone">--</div>
+    </div>
+  </section>
+
+  <main class="grid" id="grid"></main>
+  <div class="empty hidden" id="empty">
+    <div class="empty-icon">🕰️</div>
+    <div>还没有添加城市，在上方搜索并添加你关注的城市吧</div>
+  </div>
+</div>
+
+<script src="logic.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
