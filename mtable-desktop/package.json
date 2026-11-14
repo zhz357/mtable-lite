@@ -1,7 +1,7 @@
 {
   "name": "mtable-desktop",
   "productName": "MTable",
-  "version": "1.1.17",
+  "version": "1.1.19",
   "description": "MTable 跨平台桌面客户端（macOS / Windows）",
   "author": "MTable",
   "license": "MIT",
